@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import ru.spacejob.SpaceJob;
+import ru.spacejob.assets.Assets;
 import ru.spacejob.assets.Fonts;
 
 class ColorPickerScreen implements Screen {
@@ -35,12 +36,11 @@ class ColorPickerScreen implements Screen {
         camera.update();
 
         SpriteBatch batch = game.getSpriteBatch();
-        Fonts fonts = game.getFonts();
 
         batch.setProjectionMatrix(camera.combined);
 
         batch.begin();
-        fonts.getAsapMedium24().draw(batch, "ColorPickerScreen of Space Job!!! ", 100, 150);
+        Assets.fonts.latoRegular32.draw(batch, "ColorPickerScreen of Space Job!!! ", 100, 150);
         batch.end();
 
         if (Gdx.input.isTouched()) {
