@@ -8,7 +8,7 @@ public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 
-		config.title = "my-gdx-game";
+		config.title = "Space Job";
 		config.useGL30 = true;
 		config.width = 768;
 		config.height = 320;

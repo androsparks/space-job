@@ -7,7 +7,8 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import ru.spacejob.SpaceJob;
-import ru.spacejob.assets.Fonts;
+import ru.spacejob.assets.Assets;
+import ru.spacejob.assets.Player;
 
 class LevelListScreen implements Screen {
 
@@ -35,12 +36,13 @@ class LevelListScreen implements Screen {
         camera.update();
 
         SpriteBatch batch = game.getSpriteBatch();
-        Fonts fonts = game.getFonts();
 
         batch.setProjectionMatrix(camera.combined);
 
         batch.begin();
-        fonts.getAsapMedium24().draw(batch, "LevelListScreen of Space Job!!! ", 100, 150);
+        batch.draw(Assets.player.body, 100, 100);
+        Assets.fonts.latoRegular32.draw(batch, "LevelListScreen of Space Job!!! ", 100, 150);
+        Assets.fonts.latoRegular64.draw(batch, "LevelListScreen of Space Job!!! ", 100, 200);
         batch.end();
 
         if (Gdx.input.isTouched()) {

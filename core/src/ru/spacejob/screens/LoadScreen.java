@@ -4,54 +4,65 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 import ru.spacejob.SpaceJob;
-import ru.spacejob.assets.Fonts;
+import ru.spacejob.assets.Assets;
 
 class LoadScreen implements Screen {
 
     private final SpaceJob game;
 
+    private Viewport viewport;
     private OrthographicCamera camera;
+    private SpriteBatch batch;
+
+    private TextureRegion background;
+
+    private Assets assets;
 
     LoadScreen(final SpaceJob game) {
         this.game = game;
-
-        camera = new OrthographicCamera();
-        camera.setToOrtho(false, game.getScreenWidth(), game.getScreenHeight());
+        assets = game.getAssets();
     }
 
     @Override
     public void show() {
+        batch = game.getSpriteBatch();
 
+        camera = new OrthographicCamera();
+        camera.position.set(game.getScreenWidth() / 2, game.getScreenHeight() / 2, 0);
+        viewport = new FitViewport(game.getScreenWidth(), game.getScreenHeight(), camera);
+
+        background = new TextureRegion(new Texture(Gdx.files.internal("textures/load_screen.png")));
     }
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0, 0, 0.2f, 1);
+        Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
 
         camera.update();
 
-        SpriteBatch batch = game.getSpriteBatch();
-        Fonts fonts = game.getFonts();
-
         batch.setProjectionMatrix(camera.combined);
 
         batch.begin();
-        fonts.getAsapMedium24().draw(batch, "LoadScreen of Space Job!!! ", 100, 150);
+        batch.draw(background, 0, 0, 0, 0, background.getRegionWidth(), background.getRegionHeight(), 2,  2, 0);
         batch.end();
 
-        if (Gdx.input.isTouched()) {
+        if (assets.isLoadingComplete()) {
+            assets.create();
             ScreenManager.INSTANCE.showScreen(ScreenEnum.LEVEL_LIST);
-            dispose();
         }
     }
 
     @Override
     public void resize(int width, int height) {
-
+        viewport.update(width, height);
     }
 
     @Override
